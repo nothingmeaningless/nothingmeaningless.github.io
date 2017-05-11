@@ -1,4 +1,4 @@
-var char="日月金木水火土竹戈十大中一弓人心手口尸廿山女田難卜";
+var char="日月金木水火土竹戈十大中一弓人心手口尸廿山女田難卜Z";
 
 var add_load_res;
 var res = {};
@@ -320,8 +320,16 @@ function active2_extra(getNextChar){ //func should avoid repeat issue
 	active(getNext);
 }
 
+function str_filter(str){ //cangjie_char
+	return str.split('').filter(function(word){
+		return cangjie_char[word] != null;
+	}).join('');
+}
+
 function active3(){
 	var str = document.getElementById("custom_text").value;
+	str = str_filter(str);
+	if(!str) return;
 	var isUnique = checkUnique(str);
 	
 	function checkUnique(str){
@@ -358,6 +366,8 @@ function active3(){
 
 function active4(){
 	var str = document.getElementById("custom_text").value;
+	str = str_filter(str);
+	if(!str) return;
 	var i = 0;
 	active2_extra(function(){
 		var this_char = str.charAt(i);
@@ -402,11 +412,11 @@ function dictionary(search_text){
 	
 	for(var i = 0; i < search_text.length; i++){
 		var this_char = search_text.charAt(i);
-		var a = (""+changjie2a[this_char]) || "";
-		a = get_html(a);
+		var a = (changjie2a[this_char]) || "";
+		a = get_html(""+a);
 		
-		var b = (""+cangjie_char[this_char]) || "";
-		b = get_html(b);
+		var b = (cangjie_char[this_char]) || "";
+		b = get_html(""+b);
 		
 		res_ele.appendChild(tr([this_char, a, b]));
 	}
